@@ -17,7 +17,7 @@ function random() {
 function generateQuote() {
     const {text, author} = quotesCollection[random()];
             quoteText.textContent = text;
-            quoteAuthor.textContent = author;
+            quoteAuthor.textContent = author === null ? `© Somebody wise...` : `© ${author}`;
 }
 
 
@@ -25,7 +25,7 @@ quoteContainer.style.display = 'none';
 loadingIndicator.style.display = 'block';
 
 
-QuotesApi.getMyQuotes()
+QuotesApi.getAllQuotes()
         .then((data) => {
             // showLoadingIndicator = false;
             quoteContainer.style.display = 'block';
