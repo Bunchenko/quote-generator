@@ -12,7 +12,8 @@ html {
 body {
     display: flex;
     align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     height: 100%;
     margin: 0 20%;
     background-color: rgb(76, 113, 235);
@@ -97,9 +98,9 @@ body {
 }
 
 @media (max-width: 768px) {
-body {
-    margin: 0 10%;
-}
+    body {
+        margin: 0 10%;
+    }
 
     .hero-image {
         height: 200px
