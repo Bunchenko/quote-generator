@@ -6,20 +6,24 @@ let quoteContainer = document.querySelector('.quote');
 let quoteText = document.querySelector('.quote-text');
 let quoteAuthor = document.querySelector('.quote-author');
 let loadingIndicator = document.querySelector('.loading-indicator');
+let body = document.querySelector('body');
 // let showLoadingIndicator = true;
 let quotesCollection = [];
 
-function random() {
-    return Math.floor(Math.random() * (quotesCollection.length + 1))
+function random(highestNumber) {
+    return Math.floor(Math.random() * ( highestNumber + 1))
 }
 
 
 function generateQuote() {
-    const {text, author} = quotesCollection[random()];
+    const {text, author} = quotesCollection[random(quotesCollection.length)];
             quoteText.textContent = text;
             quoteAuthor.textContent = author === null ? `© Somebody wise...` : `© ${author}`;
 }
 
+function changeBodyBackground() {
+    body.style.backgroundColor = `rgb(${random(255)}, ${random(255)}, ${random(255)})`;
+}
 
 quoteContainer.style.display = 'none';
 loadingIndicator.style.display = 'block';
@@ -39,4 +43,5 @@ QuotesApi.getAllQuotes()
 
 
 button.addEventListener('click', generateQuote);
+button.addEventListener('click', changeBodyBackground);
 
