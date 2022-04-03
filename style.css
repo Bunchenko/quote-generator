@@ -29,8 +29,8 @@ body {
 }
 
 .hero-image {
-    height: 300px;
-    margin-bottom: 20px;
+    margin-top: 5px;
+    height: 280px;
 }
 
 .quote-text {
@@ -42,7 +42,7 @@ body {
 }
 
 .quote-author {
-    margin: 15px 0;
+    margin-top: 10px;
     color: white;
     font-family: 'Rowdies', sans-serif, cursive;
     font-size: 18px;
