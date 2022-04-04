@@ -28,7 +28,7 @@ function changeBodyBackground() {
     body.style.backgroundColor = `rgb(${random(255)}, ${random(255)}, ${random(255)})`;
 }
 
-function toggleActiveButton() {
+function toggleActiveButton(event) {
     if (event.target.classList.contains('lang-change-button')) {
         langButtons.forEach(button => button.classList.remove('active'));
         event.target.classList.add('active');

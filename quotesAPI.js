@@ -1,4 +1,3 @@
-import myQuotes from './myQuotes.js';
 
 const API_URL = 'https://type.fit/api/quotes';
 export class QuotesApi {
@@ -16,13 +15,13 @@ export class QuotesApi {
           })
     }
 
-    static getMyQuotes() {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(myQuotes)
-            }, 3000)
-        }).then((data) => {
-            return data
-        })
-    }
+    // static getMyQuotes() {
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve(myQuotes)
+    //         }, 3000)
+    //     }).then((data) => {
+    //         return data
+    //     })
+    // }
 }
