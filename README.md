@@ -7,6 +7,7 @@ I apologize to sensetive people for changing background color on click randomly.
 - CSS3
 - Vanilla JS (ES6)
 ## JS Skills
+- Working with API
 - Modules
 - Anonymous functions
 - DOM manipulations
