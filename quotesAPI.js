@@ -15,13 +15,17 @@ export class QuotesApi {
           })
     }
 
-    // static getMyQuotes() {
-    //     return new Promise((resolve, reject) => {
-    //         setTimeout(() => {
-    //             resolve(myQuotes)
-    //         }, 3000)
-    //     }).then((data) => {
-    //         return data
-    //     })
-    // }
+    static async getRussianQuotes() {
+      const russianQuotes = 'quotes.json';
+      const result = await fetch(russianQuotes);
+      const data = await result.json();
+      return data
+    }
+
+    static async getBelarusianQuotes() {
+      const belarusianQuotes = 'belarusian_quotes.json';
+      const result = await fetch(belarusianQuotes);
+      const data = await result.json();
+      return data
+    }
 }

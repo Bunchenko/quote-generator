@@ -10,22 +10,14 @@ let body = document.querySelector('body');
 let langButtonsContainer = document.querySelector('.lang-change');
 let langButtons = document.querySelectorAll('.lang-change-button');
 
-// let showLoadingIndicator = true;
+let showLoadingIndicator;
 let quotesCollection = [];
+let russianQuotesCollection = [];
+let belarusianQuotesCollection = [];
+
 
 function random(highestNumber) {
     return Math.floor(Math.random() * ( highestNumber + 1))
-}
-
-
-function generateQuote() {
-    const {text, author} = quotesCollection[random(quotesCollection.length)];
-            quoteText.textContent = text;
-            quoteAuthor.textContent = author === null ? `© Somebody wise...` : `© ${author}`;
-}
-
-function changeBodyBackground() {
-    body.style.backgroundColor = `rgb(${random(255)}, ${random(255)}, ${random(255)})`;
 }
 
 function toggleActiveButton(event) {
@@ -35,24 +27,75 @@ function toggleActiveButton(event) {
     }
 }
 
-quoteContainer.style.display = 'none';
-loadingIndicator.style.display = 'block';
+function changeBodyBackground() {
+    body.style.backgroundColor = `rgb(${random(255)}, ${random(255)}, ${random(255)})`;
+}
+
+
+function showLoading() {
+    showLoadingIndicator = true;
+    quoteContainer.style.display = 'none';
+    loadingIndicator.style.display = 'block';
+}
+
+function hideLoading() {
+    showLoadingIndicator = false;
+    quoteContainer.style.display = 'block';
+    loadingIndicator.style.display = 'none';
+}
+
+
+function generateQuote(source) {
+    let {text, author} = source[random(source.length)];
+            quoteText.textContent = text;
+            quoteAuthor.textContent = author === null ? `© Somebody wise...` : `© ${author}`;
+}
+
+
+
+showLoading();
 
 
 QuotesApi.getAllQuotes()
         .then((data) => {
-            // showLoadingIndicator = false;
-            quoteContainer.style.display = 'block';
-            loadingIndicator.style.display = 'none';
+            hideLoading();
             quotesCollection = data;
-            // console.log(data)
         })
         .then(() => {
-            generateQuote();
+            generateQuote(quotesCollection);
+        })
+        .catch((error) =>{
+            console.error(error)
+        })
+
+QuotesApi.getBelarusianQuotes()
+        .then((data) => {
+            hideLoading();
+            belarusianQuotesCollection = data;
+
+        })
+        // .then(() => {
+        //     generateQuote(belarusianQuotesCollection);
+        // })
+        .catch((error) =>{
+            console.error(error)
+        })
+
+QuotesApi.getRussianQuotes()
+        .then((data) => {
+            hideLoading();
+            russianQuotesCollection = data;
+
+        })
+        // .then(() => {
+        //     generateQuote(russianQuotesCollection)
+        // })
+        .catch((error) =>{
+            console.error(error)
         })
 
 
-button.addEventListener('click', generateQuote);
+button.addEventListener('click', () => generateQuote(quotesCollection));
 button.addEventListener('click', changeBodyBackground);
 
 langButtonsContainer.addEventListener('click', toggleActiveButton);
