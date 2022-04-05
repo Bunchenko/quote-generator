@@ -10,7 +10,10 @@ let body = document.querySelector('body');
 let langButtonsContainer = document.querySelector('.lang-change');
 let langButtons = document.querySelectorAll('.lang-change-button');
 
-let showLoadingIndicator;
+let currentLang = 'en';
+
+let dictionary = {}
+
 let quotesCollection = [];
 let russianQuotesCollection = [];
 let belarusianQuotesCollection = [];
@@ -20,10 +23,15 @@ function random(highestNumber) {
     return Math.floor(Math.random() * ( highestNumber + 1))
 }
 
-function toggleActiveButton(event) {
+function toggleLanguage(event) {
     if (event.target.classList.contains('lang-change-button')) {
+        //change color of buttons
         langButtons.forEach(button => button.classList.remove('active'));
         event.target.classList.add('active');
+        //set current language
+        currentLang = event.target.textContent.toLowerCase();
+        //change quote`s language
+        generateQuote(dictionary[currentLang]);
     }
 }
 
@@ -33,13 +41,11 @@ function changeBodyBackground() {
 
 
 function showLoading() {
-    showLoadingIndicator = true;
     quoteContainer.style.display = 'none';
     loadingIndicator.style.display = 'block';
 }
 
 function hideLoading() {
-    showLoadingIndicator = false;
     quoteContainer.style.display = 'block';
     loadingIndicator.style.display = 'none';
 }
@@ -52,20 +58,30 @@ function generateQuote(source) {
 }
 
 
-
 showLoading();
 
 
 QuotesApi.getAllQuotes()
         .then((data) => {
-            hideLoading();
             quotesCollection = data;
         })
         .then(() => {
             generateQuote(quotesCollection);
+            //I create an object here because this async function is the longest to complete, as 
+            //another two json files are local
+            dictionary = {
+                'en': quotesCollection,
+                'ru': russianQuotesCollection,
+                'by': belarusianQuotesCollection
+            }
         })
         .catch((error) =>{
             console.error(error)
+            quoteText.textContent = 'Failed loading English quotes!\nTry again later or switch to another language'
+            dictionary = {
+                'ru': russianQuotesCollection,
+                'by': belarusianQuotesCollection
+            }
         })
 
 QuotesApi.getBelarusianQuotes()
@@ -74,9 +90,6 @@ QuotesApi.getBelarusianQuotes()
             belarusianQuotesCollection = data;
 
         })
-        // .then(() => {
-        //     generateQuote(belarusianQuotesCollection);
-        // })
         .catch((error) =>{
             console.error(error)
         })
@@ -87,15 +100,12 @@ QuotesApi.getRussianQuotes()
             russianQuotesCollection = data;
 
         })
-        // .then(() => {
-        //     generateQuote(russianQuotesCollection)
-        // })
         .catch((error) =>{
             console.error(error)
         })
 
 
-button.addEventListener('click', () => generateQuote(quotesCollection));
+button.addEventListener('click', () => generateQuote(dictionary[currentLang]));
 button.addEventListener('click', changeBodyBackground);
 
-langButtonsContainer.addEventListener('click', toggleActiveButton);
+langButtonsContainer.addEventListener('click', toggleLanguage);
